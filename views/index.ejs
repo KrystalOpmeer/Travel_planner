@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Planner</title>
+</head>
+<body>
+    <h1>Personalized Travel Itinerary Generator</h1>
+    <form action="/itinerary" method="POST">
+        <label for="source">Source:</label>
+        <input type="text" id="source" name="source" required><br><br>
+
+        <label for="destination">Destination:</label>
+        <input type="text" id="destination" name="destination" required><br><br>
+
+        <label for="group_size">Number of People:</label>
+        <input type="number" id="group_size" name="group_size" required><br><br>
+
+        <label for="days">Number of Days:</label>
+        <input type="number" id="days" name="days" required><br><br>
+
+        <label for="interests">Preferred Interests (choose multiple):</label><br>
+        <input type="checkbox" name="interests" value="business"> Business
+        <input type="checkbox" name="interests" value="historic"> Historic
+        <input type="checkbox" name="interests" value="nature"> Nature<br><br>
+
+        <label for="budget">Budget:</label><br>
+        <select name="budget" id="budget" required>
+            <option value="economy">Economy</option>
+            <option value="budget">Budget</option>
+            <option value="luxury">Luxury</option>
+        </select><br><br>
+
+        <button type="submit">Generate Itinerary</button>
+    </form>
+</body>
+</html>
