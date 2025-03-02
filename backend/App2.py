@@ -118,40 +118,54 @@ edges = [
 for src, dest, time in edges:
     kerala_graph.add_edge(src, dest, travel_time=time)
 
-# Dijkstra's algorithm for shortest paths
-def shortest_path(graph, start):
+
+def heuristic(node1, node2, graph):
+    """Improved heuristic estimating travel time between nodes."""
+    if graph.has_edge(node1, node2):
+        return graph[node1][node2]['travel_time']
+    return 10  # Default heuristic for distant nodes
+
+
+def a_star_search(graph, start, goal):
+    """A* algorithm to find the shortest path based on travel time."""
     pq = []
-    distances = {node: float('inf') for node in graph.nodes}
-    distances[start] = 0
-    heapq.heappush(pq, (0, start))
+    heapq.heappush(pq, (0, start))  # (cost, node)
+    came_from = {start: None}
+    g_score = {node: float('inf') for node in graph.nodes}
+    g_score[start] = 0
+    f_score = {node: float('inf') for node in graph.nodes}
+    f_score[start] = heuristic(start, goal, graph)
 
     while pq:
-        current_distance, current_node = heapq.heappop(pq)
+        _, current = heapq.heappop(pq)
+        if current == goal:
+            path = []
+            while current:
+                path.append(current)
+                current = came_from[current]
+            return path[::-1]  # Return reversed path
 
-        if current_distance > distances[current_node]:
-            continue
+        for neighbor in graph.neighbors(current):
+            weight = graph[current][neighbor]['travel_time']
+            tentative_g_score = g_score[current] + weight
 
-        for neighbor in graph.neighbors(current_node):
-            weight = graph[current_node][neighbor]["travel_time"]
-            distance = current_distance + weight
+            if tentative_g_score < g_score[neighbor]:
+                came_from[neighbor] = current
+                g_score[neighbor] = tentative_g_score
+                f_score[neighbor] = tentative_g_score + heuristic(neighbor, goal, graph)
+                heapq.heappush(pq, (f_score[neighbor], neighbor))
 
-            if distance < distances[neighbor]:
-                distances[neighbor] = distance
-                heapq.heappush(pq, (distance, neighbor))
+    return None  # No path found
 
-    return distances
 
-# Travel Plan Generator
 def generate_plan(start, place_type, max_travel_hours, budget, num_days, return_to_start=False):
-    filtered_places = [
-        place for place in kerala_graph.nodes if kerala_graph.nodes[place]["type"] == place_type
-    ]
-
+    filtered_places = [place for place in kerala_graph.nodes if kerala_graph.nodes[place]["type"] == place_type]
     alternative_budgets = {"Low": ["Mid"], "Mid": ["Low", "High"], "High": ["Mid"]}
     possible_places = [
         place for place in filtered_places
-        if kerala_graph.nodes[place]["budget"] == budget or
-        kerala_graph.nodes[place]["budget"] in alternative_budgets.get(budget, [])
+        if
+        kerala_graph.nodes[place]["budget"] == budget or kerala_graph.nodes[place]["budget"] in alternative_budgets.get(
+            budget, [])
     ]
 
     if not possible_places:
@@ -162,8 +176,9 @@ def generate_plan(start, place_type, max_travel_hours, budget, num_days, return_
     current_location = start
 
     for day in range(1, num_days + 1):
-        distances = shortest_path(kerala_graph, current_location)
-        sorted_places = sorted(possible_places, key=lambda x: distances.get(x, float('inf')))
+        # Sort by heuristic + user preferences (e.g., rating, popularity)
+        sorted_places = sorted(possible_places, key=lambda x: (
+        heuristic(current_location, x, kerala_graph), -kerala_graph.nodes[x].get("rating", 0)))
 
         day_plan = []
         total_time_spent = 0
@@ -172,13 +187,12 @@ def generate_plan(start, place_type, max_travel_hours, budget, num_days, return_
             if place in visited_places:
                 continue
 
-            if place not in distances or distances[place] == float('inf'):
+            path = a_star_search(kerala_graph, current_location, place)
+            if not path:
                 continue  # Skip unreachable places
 
-            travel_time = distances[place]
-
+            travel_time = sum(kerala_graph[u][v]['travel_time'] for u, v in zip(path[:-1], path[1:]))
             if total_time_spent + travel_time <= max_travel_hours:
-                path = nx.shortest_path(kerala_graph, current_location, place, weight="travel_time")
                 day_plan.append({"route": path, "travel_time": travel_time})
                 total_time_spent += travel_time
                 visited_places.add(place)
@@ -189,29 +203,26 @@ def generate_plan(start, place_type, max_travel_hours, budget, num_days, return_
 
         if day_plan:
             daily_plan[f"Day {day}"] = day_plan
-
-            # Ensure possible_places is a set before subtracting visited_places
         if not set(possible_places) - visited_places:
+            break
 
-            break  # If all places are visited, stop
-
-    # Return to start at the end
     if return_to_start and current_location != start:
-        if nx.has_path(kerala_graph, current_location, start):
-            return_path = nx.shortest_path(kerala_graph, current_location, start, weight="travel_time")
+        return_path = a_star_search(kerala_graph, current_location, start)
+        if return_path:
             return_time = sum(kerala_graph[u][v]['travel_time'] for u, v in zip(return_path[:-1], return_path[1:]))
             daily_plan[f"Return to {start}"] = [{"route": return_path, "travel_time": return_time}]
 
     return daily_plan
 
+
 # New user preferences
 # New user preferences
 user_input = {
-    "start": "Alappuzha",
-    "place_type": "Hill Station",  # Changed from "type" to "place_type"
+    "start": "Wayanad",
+    "place_type": "Waterfalls",  # Changed from "type" to "place_type"
     "max_travel_hours": 6,
     "budget": "Low",
-    "num_days": 3,
+    "num_days": 1,
     "return_to_start": True
 }
 
