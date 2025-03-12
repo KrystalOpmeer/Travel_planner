@@ -1,0 +1,103 @@
+.hero-section {
+    background: url("https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D") no-repeat center center;
+    background-size: cover;
+    height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .hero-section h1 {
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+  }
+  
+  .navbar-brand {
+    font-weight: bold;
+  }
+  
+  .footer a {
+    font-size: 1.2rem;
+  }
+  
+  /* Ensure body takes full height */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    background-color: #e3d6d0;
+  }
+  
+  /* Main content should take up all available space */
+  #planner {
+    flex: 1;
+  }
+  
+  /* Fixed Footer */
+  .footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: #212529;
+    color: white;
+    text-align: center;
+    padding: 15px 0;
+    height: 40px;
+  }
+  .btn-primary {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: #bc8c53;
+    --bs-btn-border-color: #bc8c53;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #a37445;  /* Darker shade for hover */
+    --bs-btn-hover-border-color: #916a3e;
+    --bs-btn-focus-shadow-rgb: 188, 140, 83; /* Adjusted shadow */
+    
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #916a3e;
+    --bs-btn-active-border-color: #7f5e37;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: #bc8c53;
+    --bs-btn-disabled-border-color: #bc8c53;
+}
+
+/* Travel Plan Container */
+.travel-plan {
+  background-color: #f9f5f0; /* Soft background for contrast */
+  border-left: 6px solid #bc8c53; /* Stylish left border */
+  padding: 20px;
+  border-radius: 10px;
+}
+
+/* Heading */
+.travel-plan h2 {
+  color: #bc8c53;
+  font-weight: bold;
+}
+
+/* Daily Plan Cards */
+.travel-plan .bg-white {
+  border-left: 4px solid #bc8c53;
+  transition: transform 0.2s ease-in-out;
+}
+
+.travel-plan .bg-white:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Route Info */
+.travel-plan .border {
+  background-color: #f0e4d2; /* Light brownish background */
+  border-left: 3px solid #bc8c53;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/* Text Colors */
+.text-primary {
+  color: #bc8c53 !important;
+}
