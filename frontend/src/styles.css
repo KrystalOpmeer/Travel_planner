@@ -101,3 +101,67 @@ html, body {
 .text-primary {
   color: #bc8c53 !important;
 }
+
+.travel-plan {
+  background: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.timeline {
+  position: relative;
+  padding-left: 20px;
+  margin-top: 20px;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 0;
+  width: 4px;
+  height: 100%;
+  background: #bc8c53;
+  border-radius: 4px;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.timeline-day {
+  background: #bc8c53;
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-weight: bold;
+  display: inline-block;
+}
+
+.timeline-badge {
+  position: absolute;
+  left: -8px;
+  top: 15px;
+  width: 16px;
+  height: 16px;
+  background: #bc8c53;
+  border-radius: 50%;
+  border: 3px solid white;
+}
+
+.timeline-content {
+  margin-left: 40px;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.timeline-card h5 {
+  margin-bottom: 5px;
+}
+
+.timeline-card p {
+  font-size: 14px;
+}

@@ -2,6 +2,8 @@ import { useState } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles.css"; // Make sure to create a styles.css file
+import { FaMapMarkerAlt, FaClock } from "react-icons/fa";
+
 
 // Modern Navbar
 function Navbar() {
@@ -46,30 +48,42 @@ function Hero() {
 }
 
 // Travel Plan Display
-function TravelPlan({ plan }) {
-  if (!plan) return <p className="text-center text-muted">No travel plan available.</p>;
+
+
+ function TravelPlan({ plan }) {
+  if (!plan || Object.keys(plan).length === 0) {
+    return <p className="text-center text-muted">No travel plan available.</p>;
+  }
 
   return (
     <div className="travel-plan p-4 bg-light shadow-sm rounded">
-      <h2 className="text-center text-primary">Your Personalized Travel Plan</h2>
-      <div className="row mt-3">
+      <h2 className="text-center text-primary">✨ Your Personalized Travel Plan ✨</h2>
+      <div className="timeline mt-4">
         {Object.keys(plan).map((day, index) => (
-          <div key={index} className="col-md-6">
-            <div className="bg-white p-3 rounded shadow-sm mb-3">
-              <h3 className="text-primary">{day}</h3>
-              {plan[day].map((trip, idx) => (
-                <div key={idx} className="p-3 bg-light border rounded mt-2">
-                  <p><strong>Route:</strong> {trip.route.join(" → ")}</p>
-                  <p><strong>Travel Time:</strong> {trip.travel_time} hours</p>
+          <div key={index} className="timeline-item">
+            <h3 className="timeline-day text-white">{day}</h3>
+            {plan[day].map((trip, idx) => (
+              <div key={idx} className="timeline-content">
+                <div className="timeline-badge"></div>
+                <div className="timeline-card">
+                  <h5 className="text-dark">
+                    <FaMapMarkerAlt className="text-danger me-2" />
+                    Route: {trip.route.join(" → ")}
+                  </h5>
+                  <p className="text-muted">
+                    <FaClock className="me-2" />
+                    Travel Time: {trip.travel_time} hours
+                  </p>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         ))}
       </div>
     </div>
   );
 }
+
 
 // Footer with Social Icons
 function Footer() {
