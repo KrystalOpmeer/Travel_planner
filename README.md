@@ -1,1 +1,2 @@
+# Travel Planner
 The  Travel Planner is a  web application designed to help users generate customized travel itineraries across various destinations in Kerala. The app allows users to input preferences such as starting point, travel time, budget, type of places (e.g., beaches, hill stations), number of days, and return preferences. It intelligently generates an optimized plan using graph-based algorithms on the backend.
